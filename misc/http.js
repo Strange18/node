@@ -25,15 +25,15 @@ const app = express;
 
 var pg = require('pg');
 
-
-var conString = "postgres://hksthusn:SCuGtJOWNWQ_GceymySl8Rd9ocM9rPcS@tiny.db.elephantsql.com/hksthusn" //Can be found in the Details page
+//Can be found in the Details page
+var conString = "postgres://hksthusn:SCuGtJOWNWQ_GceymySl8Rd9ocM9rPcS@tiny.db.elephantsql.com/hksthusn"
 var client = new pg.Client(conString);
-client.connect(function(err) {
-  if(err) {
+client.connect(function (err) {
+  if (err) {
     return console.error('could not connect to postgres', err);
   }
-  client.query('SELECT NOW() AS "theTime"', function(err, result) {
-    if(err) {
+  client.query('SELECT NOW() AS "theTime"', function (err, result) {
+    if (err) {
       return console.error('error running query', err);
     }
     console.log(result.rows[0].theTime);
