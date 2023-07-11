@@ -1,22 +1,61 @@
+// importing the express package
 var express = require('express')
 
-var app = express()
-
+// using environment variable for storing the credentials for database
 require('dotenv').config();
 
+// using routers.js 
 var student = require('./routers')
 
+// using package for postgresql
+const { Client } = require('pg')
+
+
+//creating an instance of express
+var app = express()
+
+// port in which express should listen 
 var port = 3000
 
-var pg = require('pg')
+
+// configuration for the postgresql
+// getting all the data from the environment variable
+
+const client = new Client({
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    port: 5432,
+    password: process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE_NAME,
+})
+
+// if any error occured in the connection error message will be displayed
+client.connect((err) => {
+    if (err) {
+        console.error(err)
+        return console.error("database connection not estbalished")
+    }
+
+})
 
 
-var conString = process.env.URL_DATABASEnpm
+app.use('/stduent/', student)
 
-var client = new pg.Client(conString);
+// if a client visits localhost:3000 for now or root url i.e / that this route will send
+// the json response of the query it gets from the database using the query
 
+app.get('/get-data', async function (req, res) {
+    // await client.query("INSERT INTO tbl_student(name, roll) VALUES ('Krsitina Ghimire','THA077BCT023')")
+    var a = await client.query('SELECT * FROM tbl_student');
 
-app.use('/', student)
+    // console.log(a.rows)
+    res.json(a.rows)
+
+})
+app.post('/insert-data',async (req, res)=>{
+    await client.query("INSERT INTO tbl_student(name, roll) VALUES ('Krsitina Ghimire','THA077BCT023')")
+    
+})
 
 // app.use(function (req, res, next) {
 //     console.log("Start")
