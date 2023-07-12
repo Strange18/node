@@ -52,9 +52,16 @@ app.get('/get-data', async function (req, res) {
     res.json(a.rows)
 
 })
-app.post('/insert-data',async (req, res)=>{
-    await client.query("INSERT INTO tbl_student(name, roll) VALUES ('Krsitina Ghimire','THA077BCT023')")
-    
+app.post('/insert-data', async (req, res) => {
+    try {
+        await client.query(`INSERT INTO tbl_student(name, roll) VALUES (${req.body.name}, ${req.body.roll})`);
+        res.sendStatus(200)
+    }
+    catch (err) {
+        res.sendStatus(500)
+    }
+
+
 })
 
 // app.use(function (req, res, next) {

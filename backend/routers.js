@@ -4,14 +4,6 @@ var router = express.Router()
 
 
 
-
-var students = [
-    { id: 1, name: 'prashant', roll: 'THA077BEI032' },
-    { id: 2, name: 'Kristi', roll: 'THA077BCT023' },
-    { id: 3, name: 'Achilies', roll: 'THA077BEI001' },
-
-]
-
 router.get('/', function (req, res) {
     res.json(students);
 });
